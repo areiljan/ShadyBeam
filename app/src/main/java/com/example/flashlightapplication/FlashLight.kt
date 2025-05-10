@@ -5,6 +5,9 @@ import android.content.Context
 import android.hardware.camera2.CameraManager
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import android.view.View
+import android.graphics.Color
+import android.widget.ImageView
 
 class FlashLight : AppCompatActivity(){
     private var isFlashOn = false
@@ -22,14 +25,26 @@ class FlashLight : AppCompatActivity(){
         }
 
         val button = findViewById<Button>(R.id.flashlightButton)
+        val rootLayout = findViewById<View>(R.id.rootLayout)
+        val image = findViewById<ImageView>(R.id.backgroundImage)
         button.setOnClickListener {
             isFlashOn = !isFlashOn
             toggleFlashLight(isFlashOn)
             button.text = if (isFlashOn) "Turn Off" else "Turn On"
+
+            val color = if (isFlashOn) Color.WHITE else Color.BLACK
+            rootLayout.setBackgroundColor(color)
+
+            if (isFlashOn) {
+                image.visibility = View.VISIBLE
+            } else {
+                image.visibility = View.INVISIBLE
+            }
         }
     }
 
     private fun toggleFlashLight(state: Boolean) {
         cameraManager.setTorchMode(cameraId, state);
+
     }
 }
