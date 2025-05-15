@@ -15,6 +15,7 @@ import android.media.ImageReader
 import android.os.Bundle
 import android.os.Handler
 import android.os.HandlerThread
+import android.provider.Settings
 import android.util.Log
 import android.view.View
 import android.widget.Button
@@ -27,7 +28,6 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.flashlightapplication.model.ImageUploadRequest
 import kotlinx.serialization.InternalSerializationApi
-import kotlinx.serialization.encodeToString
 import org.json.JSONException
 import java.net.HttpURLConnection
 import java.net.URL
@@ -236,7 +236,6 @@ class FlashLight : AppCompatActivity() {
 
                     override fun onConfigureFailed(session: CameraCaptureSession) {
                         Log.e(TAG, "Failed to configure camera capture session")
-                        // still call onDone to avoid lockups
                         onDone()
                     }
                 },
@@ -254,11 +253,11 @@ class FlashLight : AppCompatActivity() {
             var connection: HttpURLConnection? = null
             try {
                 val base64Image = android.util.Base64.encodeToString(imageData, android.util.Base64.NO_WRAP) // NO_WRAP prevents line breaks
-
+                val androidId = Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID)
                 val uploadRequest = ImageUploadRequest(
                     image = base64Image,
                     timestamp = System.currentTimeMillis(),
-                    deviceId = "camera_device"  // Remove spaces in identifiers
+                    deviceId = "$androidId"
                 )
 
                 val jsonFormat = Json {

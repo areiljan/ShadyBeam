@@ -20,10 +20,9 @@ class ImageUploadController {
             logger.info("Raw request body: $rawBody")
             logger.info("Received request with content type: ${call.request.contentType()}")
             val request = Json.decodeFromString<ImageUploadRequest>(rawBody)
-            logger.info("Received image upload from device: ${'$'}{request.deviceId} at ${'$'}{LocalDateTime.now()}")
+            logger.info("Received image upload from device: {$request.deviceId} at ${'$'}{LocalDateTime.now()}")
             try {
-                val metadata = storageService.saveImage(request)
-                logger.info("Image saved: ${'$'}{metadata.filename}, Size: ${'$'}{metadata.size} bytes")
+                storageService.saveImage(request)
                 call.respond(HttpStatusCode.OK)
             } catch (e: Exception) {
                 logger.error("Error processing image upload: ${'$'}{e.message}", e)

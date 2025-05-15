@@ -1,7 +1,6 @@
 package imageserver.service
 
 import imageserver.model.ImageUploadRequest
-import imageserver.model.ImageMetadata
 import org.slf4j.LoggerFactory
 import java.io.ByteArrayInputStream
 import java.io.File
@@ -21,12 +20,12 @@ class ImageStorageService {
         Files.createDirectories(Paths.get(storageLocation))
     }
 
-    fun saveImage(request: ImageUploadRequest): ImageMetadata {
+    fun saveImage(request: ImageUploadRequest) {
         val imageBytes = Base64.getDecoder().decode(request.image)
-        val filename = "flashlight_${'$'}{request.deviceId}_${'$'}timestamp_${'$'}{UUID.randomUUID()}.jpg"
+        val filename = "flashlight_${request.deviceId}_${request.timestamp}.jpg"
         val file = File("$storageLocation/$filename")
         file.writeBytes(imageBytes)
-        logger.info("Saved image to ${'$'}{file.absolutePath}")
+        logger.info("Saved image to $storageLocation/$filename")
 
         val (width, height) = try {
             val bimg = ImageIO.read(ByteArrayInputStream(imageBytes))
@@ -35,17 +34,6 @@ class ImageStorageService {
             logger.warn("Could not read image dimensions: ${'$'}{e.message}")
             Pair(null, null)
         }
-
-        return ImageMetadata(
-            id = UUID.randomUUID().toString(),
-            filename = filename,
-            size = file.length(),
-            uploadedAt = LocalDateTime.now(),
-            deviceId = request.deviceId,
-            width = width,
-            height = height,
-            format = "JPEG"
-        )
     }
 
     fun getImageById(id: String): File? {
