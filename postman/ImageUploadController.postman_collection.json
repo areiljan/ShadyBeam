@@ -1,0 +1,62 @@
+{
+  "info": {
+    "name": "Image Upload Controller",
+    "description": "Postman collection for Ktor-based image upload service",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Upload Image",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"image\": \"<base64-encoded-image>\",\n  \"timestamp\": 1625247600000,\n  \"deviceId\": \"device-1234\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/upload",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "upload"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Uploaded Image",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "http://localhost:8080/upload/{{imageId}}",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "upload",
+            "{{imageId}}"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "imageId",
+      "value": ""
+    }
+  ]
+}
