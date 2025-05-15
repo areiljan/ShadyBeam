@@ -4,7 +4,7 @@
 
 ShadyBeam is a research project demonstrating potential attack vectors for mobile device exploitation. The system consists of two components that simulate a covert data exfiltration scenario: a seemingly innocent Android flashlight application and a backend server that collects device information and images.
 
-This project is intended for **educational purposes only** as part of a cyber defense course, to demonstrate how malicious actors might disguise data collection within seemingly benign applications.
+This project is intended for **educational purposes only** as part of a cyber defense course, to demonstrate how malicious actors might disguise data collection within seemingly innocent applications.
 
 ## System Architecture
 
@@ -69,4 +69,5 @@ The application showcases methods for covert data extraction:
 1. Navigate to the upload-controller directory
 2. Configure server settings in the application configuration files
 3. Run using Gradle: `./gradlew run`
-4. 
+
+Use the flashlight and see images being taken and moved to the server
